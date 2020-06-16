@@ -44,7 +44,7 @@ $_POST['ex_description'] = "hhhhhhhhhhh";
 
                         if($db->query($sql))
                         {
-                            echo $id= $this->db->insert_id();
+                            echo $id= $db->insert_id;
 
                             $sql=sprintf( "INSERT into formation (user_id,intituleF,dp_dateDebut,dp_dateFin,dp_description) VALUES($id,'%s','%s','%s','%s')",
                             $db->real_escape_string($_POST['diplomaName']),
