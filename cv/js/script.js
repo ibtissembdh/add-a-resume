@@ -12,86 +12,84 @@ $(document).ready(function(){
 
 });
 
-
-
 function insert_Record()
 {
 
-    $(document).on('click','#btn_registration',function(){
-        
-         var   pic= $('#pic').val();
-         var   name = $('#name').val();
-         var   familyName = $('#familyName').val();
-         var   jobe= $('#jobe').val();
-         var   email = $('#email').val();
-         var   phoneNum = $('#phoneNum').val();
-         var   date = $('#date').val();
+$(document).on('click','#btn_registration',function(){
+   
+    var   pic= $('#pic').val();
+    var   name = $('#name').val();
+    var   familyName = $('#familyName').val();
+    var   jobe= $('#jobe').val();
+    var   email = $('#email').val();
+    var   phoneNum = $('#phoneNum').val();
+    var   date = $('#date').val();
 
 
-         var diplomaName = $("input[name='diplomaName[]']").map(function(){return $(this).val();}).get();
-         var dp_startDate = $("input[name='dp_startDate[]']").map(function(){return $(this).val();}).get();
-         var dp_endDate = $("input[name='dp_endDate[]']").map(function(){return $(this).val();}).get();
-         var dp_description = $("input[name='dp_description[]']").map(function(){return $(this).val();}).get();
+    var diplomaName = $("input[name='diplomaName[]']").map(function(){return $(this).val();}).get();
+    var dp_startDate = $("input[name='dp_startDate[]']").map(function(){return $(this).val();}).get();
+    var dp_endDate = $("input[name='dp_endDate[]']").map(function(){return $(this).val();}).get();
+    var dp_description = $("input[name='dp_description[]']").map(function(){return $(this).val();}).get();
 
-       
-         var experience = $("input[name='experience[]']").map(function(){return $(this).val();}).get();
-         var ex_startDate = $("input[name='ex_startDate[]']").map(function(){return $(this).val();}).get();
-         var ex_endDate = $("input[name='ex_endDate[]']").map(function(){return $(this).val();}).get();
-         var ex_description = $("input[name='ex_description[]']").map(function(){return $(this).val();}).get();
-        
-         var   skill = $("input[name='skill[]']").map(function(){return $(this).val();}).get();
-        
-         var  hobbie = $("input[name='hobbie[]']").map(function(){return $(this).val();}).get();
+  
+    var experience = $("input[name='experience[]']").map(function(){return $(this).val();}).get();
+    var ex_startDate = $("input[name='ex_startDate[]']").map(function(){return $(this).val();}).get();
+    var ex_endDate = $("input[name='ex_endDate[]']").map(function(){return $(this).val();}).get();
+    var ex_description = $("input[name='ex_description[]']").map(function(){return $(this).val();}).get();
+   
+    var   skill = $("input[name='skill[]']").map(function(){return $(this).val();}).get();
+   
+    var  hobbie = $("input[name='hobbie[]']").map(function(){return $(this).val();}).get();
 
-         var myObject = {diplomaName :{diplomaName } , dp_startDate :{dp_startDate } , dp_endDate :{dp_endDate } , dp_description :{ dp_description} , experience :{ experience} , ex_startDate :{ ex_startDate} , ex_endDate :{ex_endDate }, ex_description :{ex_description} ,skill :{skill } ,hobbie :{hobbie} };
-    
-
-         var data_user = JSON.stringify(myObject);
-        
-         //console.log(myObject);
-
-         //console.log(myObject['diplomaName']['diplomaName'][0]);
+    var myObject = {diplomaName :{diplomaName } , dp_startDate :{dp_startDate } , dp_endDate :{dp_endDate } , dp_description :{ dp_description} , experience :{ experience} , ex_startDate :{ ex_startDate} , ex_endDate :{ex_endDate }, ex_description :{ex_description} ,skill :{skill } ,hobbie :{hobbie} };
 
 
-            if( name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" )
-          {
+    var data_user = JSON.stringify(myObject);
+   
+    //console.log(myObject);
 
-                $('#message-registration').html("<div class='alert alert-warning'> veuilllez remplir tous les champs svp </div> ");
-                
-                
+    //console.log(myObject['diplomaName']['diplomaName'][0]);
 
-          }else{
 
-                
-                 $.ajax(
+       if( name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" )
+     {
+
+           $('#message-registration').html("<div class='alert alert-warning'> veuilllez remplir tous les champs svp </div> ");
+           
+           
+
+     }else{
+
+           
+            $.ajax(
+               {
+                    url: 'insert.php',
+                    method:'POST',
+                    data:{ pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date , data_user:data_user },
+                    success: function(response)
                     {
-                         url: 'insert.php',
-                         method:'POST',
-                         data:{ pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date , data_user:data_user },
-                         success: function(response)
-                         {
-                            
-                              $('#message-registration').html(response);
-                              $('#registration').modal('show');
-                              $('form').trigger('reset');
+                       
+                         $('#message-registration').html(response);
+                         $('#registration').modal('show');
+                         $('form').trigger('reset');
 
-                        }
+                   }
 
-                   });   
+              });   
 
 
 
-     }
-            
-        
-    });
- 
+}
+       
+   
+});
 
-    $(document).on('click','#btn_close',function(){
-        $('form').trigger('reset');
-        $('#message-registration').html('');
-         view_Record();
-    });
+
+$(document).on('click','#btn_close',function(){
+   $('form').trigger('reset');
+   $('#message-registration').html('');
+    view_Record();
+});
 
 
 }
@@ -100,331 +98,321 @@ function insert_Record()
 
 function view_Record(){
 
-    $.ajax(
-        {
-            url : 'view.php ',
-            method : 'POST',
-            success : function(data){
+$.ajax(
+   {
+       url : 'view.php ',
+       method : 'POST',
+       success : function(data){
 
-                    if(data){
+               if(data){
 
-                        $('#table').html(data);
-                    }else{
+                   $('#table').html(data);
+               }else{
 
-                        $('#table').html('no cv est ajouté');
-                    }
+                   $('#table').html('no cv est ajouté');
+               }
 
-                }
-            
+           }
+       
 
-        });
+   });
 
 }
 
 function get_Record()
 {
 
-    $(document).on('click','#btn_edit',function()
-    {
-        
-        var   id= $(this).attr('data-id');
+$(document).on('click','#btn_edit',function()
+{
+   
+   var   id= $(this).attr('data-id');
+  
+
+           
+           $.ajax(
+               {
+                   url:"get_record.php",
+                   method:'POST',
+                   data:{ id:id },
+                   success: function(data)
+                   {
+                            // modal content:
+
+                            console.log(data);
+
+                               $('#modal_content').html(data); 
+                              $('#update').modal('show');
+                         
+                       
+                }
+                      
+
+           });  
+
        
-    
-                
-                $.ajax(
-                    {
-                        url:"get_record.php",
-                        method:'POST',
-                        data:{ id:id },
-                        success: function(data)
-                        {
-                                 // modal content:
-
-                                 console.log(data);
-
-                                    $('#modal_content').html(data); 
-                                   $('#update').modal('show');
-                              
-                            
-                     }
-                           
-
-                });  
-
-            
-        
-    });
+   
+});
 }
 
 function update_record()
 {
-    $(document).on('click','#btn_update', function()
-        {
-             var   pic= $('#up_pic').val();
-             var   name = $('#up_name').val();
-             var   familyName = $('#up_familyName').val();
-             var   jobe= $('#up_jobe').val();
-             var   email = $('#up_email').val();
-             var   phoneNum = $('#up_phoneNum').val();
-             var   date = $('#up_date').val();
-             var   id = $('#up_id').val();
+   $(document).on('click','#btn_update', function()
+       {
+            var   pic= $('#up_pic').val();
+            var   name = $('#up_name').val();
+            var   familyName = $('#up_familyName').val();
+            var   jobe= $('#up_jobe').val();
+            var   email = $('#up_email').val();
+            var   phoneNum = $('#up_phoneNum').val();
+            var   date = $('#up_date').val();
+            var   id = $('#up_id').val();
 
 
-             var diplomaName = $("input[name='up_diplomaName[]']").map(function(){return $(this).val();}).get();
-             var dp_startDate = $("input[name='up_dp_startDate[]']").map(function(){return $(this).val();}).get();
-             var dp_endDate = $("input[name='up_dp_endDate[]']").map(function(){return $(this).val();}).get();
-             var dp_description = $("input[name='up_dp_description[]']").map(function(){return $(this).val();}).get();
+            var diplomaName = $("input[name='up_diplomaName[]']").map(function(){return $(this).val();}).get();
+            var dp_startDate = $("input[name='up_dp_startDate[]']").map(function(){return $(this).val();}).get();
+            var dp_endDate = $("input[name='up_dp_endDate[]']").map(function(){return $(this).val();}).get();
+            var dp_description = $("input[name='up_dp_description[]']").map(function(){return $(this).val();}).get();
+
+          
+            var experience = $("input[name='up_experience[]']").map(function(){return $(this).val();}).get();
+            var ex_startDate = $("input[name='up_ex_startDate[]']").map(function(){return $(this).val();}).get();
+            var ex_endDate = $("input[name='up_ex_endDate[]']").map(function(){return $(this).val();}).get();
+            var ex_description = $("input[name='up_ex_description[]']").map(function(){return $(this).val();}).get();
+           
+            var   skill = $("input[name='up_skill[]']").map(function(){return $(this).val();}).get();
+           
+            var  hobbie = $("input[name='up_hobbie[]']").map(function(){return $(this).val();}).get();
+
+            var myObject = {diplomaName :{diplomaName} , dp_startDate :{dp_startDate} , dp_endDate :{dp_endDate} , dp_description :{dp_description} , experience :{experience} , ex_startDate :{ex_startDate} , ex_endDate :{ex_endDate}, ex_description :{ex_description} ,skill :{skill} ,hobbie :{hobbie} };
+       
+
+            var data_user = JSON.stringify(myObject);
+       
+        console.log(myObject);
+
+        //alert(myObject['diplomaName']['diplomaName'][0]);
+
+        //alert(id);
+
+
+           if( id = "" || name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" )
+         {
+
+               $('#message-update').html("<div class='alert alert-warning'> veuilllez remplir tous les champs svp </div> ");
+               $('#update').modal('show');
+               
+               
+
+         }else{
+
+               
+                $.ajax(
+                   {
+                        url: 'update.php',
+                        method:'POST',
+                        data:{ id:id ,pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date , data_user:data_user },
+                        success: function(response)
+                        {
+
+                           
+                             $('#message-update').html(response);
+                             $('#update').modal('show');
+                             $('form').trigger('reset');
+                             view_Record();
+                       }
+
+                  });   
+
 
            
-             var experience = $("input[name='up_experience[]']").map(function(){return $(this).val();}).get();
-             var ex_startDate = $("input[name='up_ex_startDate[]']").map(function(){return $(this).val();}).get();
-             var ex_endDate = $("input[name='up_ex_endDate[]']").map(function(){return $(this).val();}).get();
-             var ex_description = $("input[name='up_ex_description[]']").map(function(){return $(this).val();}).get();
-            
-             var   skill = $("input[name='up_skill[]']").map(function(){return $(this).val();}).get();
-            
-             var  hobbie = $("input[name='up_hobbie[]']").map(function(){return $(this).val();}).get();
 
-             var myObject = {diplomaName :{diplomaName} , dp_startDate :{dp_startDate} , dp_endDate :{dp_endDate} , dp_description :{dp_description} , experience :{experience} , ex_startDate :{ex_startDate} , ex_endDate :{ex_endDate}, ex_description :{ex_description} ,skill :{skill} ,hobbie :{hobbie} };
-        
-
-             var data_user = JSON.stringify(myObject);
-        
-         console.log(myObject);
-
-         //alert(myObject['diplomaName']['diplomaName'][0]);
-
-         //alert(id);
+       }
+   });
 
 
-            if( id = "" || name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" )
-          {
+   $(document).on('click','#btn_close',function(){
+       $('form').trigger('reset');
+       $('#message-update').html('');
 
-                $('#message-update').html("<div class='alert alert-warning'> veuilllez remplir tous les champs svp </div> ");
-                $('#update').modal('show');
-                
-                
+   });
+}
 
-          }else{
+function delete_record()
+{
+   $(document).on('click','#btn_delete',function(){
 
-                
-                 $.ajax(
-                    {
-                         url: 'update.php',
-                         method:'POST',
-                         data:{ id:id ,pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date , data_user:data_user },
-                         success: function(response)
-                         {
+       var  id = $(this).attr('data-id1'); 
 
-                            
-                              $('#message-update').html(response);
-                              $('#update').modal('show');
-                              $('form').trigger('reset');
-                              view_Record();
-                        }
+       $('#message-delete').html("voulez vous vraiment supprimer ce CV ? </br> si oui cliquez sur le bouton delete Now");         
 
-                   });   
+   
+       $(document).on('click','#btn_delete_record', function()
+       {
+           
+           
+           $.ajax(
+               {
+                   url : 'delete.php',
+                   method : 'POST',
+                   data : { id : id },
+                   success : function(data)
+                   {
+                       $('#message-delete').html(data);
+                       $('#delete').modal('show');
+                       view_Record();
+                       alert(data);
+                   }
+               });
+
+       });
+
+   });
 
 
-            
+   $(document).on('click','#btn_close',function(){
+       $('form').trigger('reset');
+       $('#message-delete').html('');
+   });
 
-        }
-    });
-
-
-    $(document).on('click','#btn_close',function(){
-        $('form').trigger('reset');
-        $('#message-update').html('');
-
-    });
 }
 
 
+function search_record()
+{
+   $(document).on('keyup', '#search', function()
+   {
+       var data = $('#search').val();
 
-    function delete_record()
-    {
-        $(document).on('click','#btn_delete',function(){
+               if(data.length>2 && data !="")
+               {
+                           $.ajax({
+                           url: 'search.php',
+                           method: 'post',
+                           data:{ data:data },
+                           success: function (response) {
+                               if(data !=""){
 
-            var  id = $(this).attr('data-id1'); 
+                                   $('#table').html(response);
 
-            $('#message-delete').html("voulez vous vraiment supprimer ce CV ? </br> si oui cliquez sur le bouton delete Now");         
-    
-        
-            $(document).on('click','#btn_delete_record', function()
-            {
-                
-                
-                $.ajax(
-                    {
-                        url : 'delete.php',
-                        method : 'POST',
-                        data : { id : id },
-                        success : function(data)
-                        {
-                            $('#message-delete').html(data);
-                            $('#delete').modal('show');
-                            view_Record();
-                            alert(data);
-                        }
-                    });
-
-            });
-
-        });
-
-
-        $(document).on('click','#btn_close',function(){
-            $('form').trigger('reset');
-            $('#message-delete').html('');
-        });
-
-    }
-
-
-
-    function search_record()
-    {
-        $(document).on('keyup', '#search', function()
-        {
-            var data = $('#search').val();
-
-                    if(data.length>2 && data !="")
-                    {
-                                $.ajax({
-                                url: 'search.php',
-                                method: 'post',
-                                data:{ data:data },
-                                success: function (response) {
-                                    if(data !=""){
-
-                                        $('#table').html(response);
-
-                                         }
-                                        
                                     }
-                                });
-                    }else{
+                                   
+                               }
+                           });
+               }else{
 
-                        view_Record();
-                    }
+                   view_Record();
+               }
 
-        });
-    }
+   });
+}
 
-    
+
 function addSection()
 {
-    $(document).on('click','#addSection' , function()
-    {
-        var name = $(this).attr('data-name');
-        var  html = "";
-        //alert(name);
+$(document).on('click','#addSection' , function()
+{
+   var name = $(this).attr('data-name');
+   var  html = "";
+   //alert(name);
 
-        if(name == "LOISIR" )
-        {
-            html += '<div id="NewRow">';
-            html += '<div class="input-group mb-3" >';
-            html += '<input type="text" name="hobbie[]"  id="hobbie" class="form-control m-input" placeholder=" " autocomplete="on">';
-            html += '<div class="input-group-append">';
-            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>';
-            $('#new'+ name).append(html);
-        }
-        if(name == "COMPETENCE" )
-        {
-            html += '<div id="NewRow">';
-            html += '<div class="input-group mb-3">';
-            html += '<input type="text" name="skill[]" id="skill" class="form-control m-input" placeholder=" " autocomplete="on" >';
-            html += '<div class="input-group-append">';
-            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
-            html += '</div>';
-            html += '</div>';
-            html += '</div>'; 
-            $('#new' + name).append(html);
-        }
+   if(name == "LOISIR" )
+   {
+       html += '<div id="NewRow">';
+       html += '<div class="input-group mb-3" >';
+       html += '<input type="text" name="hobbie[]"  id="hobbie" class="form-control m-input" placeholder=" " autocomplete="on">';
+       html += '<div class="input-group-append">';
+       html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+       html += '</div>';
+       html += '</div>';
+       html += '</div>';
+       $('#new'+ name).append(html);
+   }
+   if(name == "COMPETENCE" )
+   {
+       html += '<div id="NewRow">';
+       html += '<div class="input-group mb-3">';
+       html += '<input type="text" name="skill[]" id="skill" class="form-control m-input" placeholder=" " autocomplete="on" >';
+       html += '<div class="input-group-append">';
+       html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+       html += '</div>';
+       html += '</div>';
+       html += '</div>'; 
+       $('#new' + name).append(html);
+   }
 
-        if(name == "FORMATION" )
-        {
-            html += '<div id="NewRow">';
-            html += '<div class="form-group">';                   
-            html += '<label style=\"color:blue; font-weight:bold; \" >INTITULÉ </label>'; 
-            html += '<div class="input-group mb-3">';                       
-            html += ' <input type="text" name="diplomaName[]" id="diplomaName" value="" class="form-control"  >'; 
-            html += '<div class="input-group-append">';
-            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
-            html += '</div>';
-            html += '</div>';                                
-            html += ' </div>';                     
-            html += '<div class="form-group">';                      
-            html += '<label style=\"color:blue; font-weight:bold; \" > DATE DE DÉBUT </label>';                          
-            html += '<input type="date" name="dp_startDate[]" id=" dp_startDate" value="" class="form-control"  >';                                  
-            html += '</div>';                      
-            html += '<div class="form-group">';                      
-            html += ' <label style=\"color:blue; font-weight:bold; \" > DATE DE FIN </label>';                          
-            html += ' <input type="date" name="dp_endDate[]"  id="dp_endDate" value="" class="form-control"  >';                                 
-            html += ' </div>';                     
-            html += '<div class="form-group">';                      
-            html += '<label style=\"color:blue; font-weight:bold; \" > DÉSCRIPTION </label>';                          
-            html += ' <input type="text" name="dp_description[]"  id="dp_description" class="form-control"  value="" > ';                                 
-            html += '</div>';   
-            html += '</div>';      
+   if(name == "FORMATION" )
+   {
+       html += '<div id="NewRow">';
+       html += '<div class="form-group">';                   
+       html += '<label style=\"color:blue; font-weight:bold; \" >INTITULÉ </label>'; 
+       html += '<div class="input-group mb-3">';                       
+       html += ' <input type="text" name="diplomaName[]" id="diplomaName" value="" class="form-control"  >'; 
+       html += '<div class="input-group-append">';
+       html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+       html += '</div>';
+       html += '</div>';                                
+       html += ' </div>';                     
+       html += '<div class="form-group">';                      
+       html += '<label style=\"color:blue; font-weight:bold; \" > DATE DE DÉBUT </label>';                          
+       html += '<input type="date" name="dp_startDate[]" id=" dp_startDate" value="" class="form-control"  >';                                  
+       html += '</div>';                      
+       html += '<div class="form-group">';                      
+       html += ' <label style=\"color:blue; font-weight:bold; \" > DATE DE FIN </label>';                          
+       html += ' <input type="date" name="dp_endDate[]"  id="dp_endDate" value="" class="form-control"  >';                                 
+       html += ' </div>';                     
+       html += '<div class="form-group">';                      
+       html += '<label style=\"color:blue; font-weight:bold; \" > DÉSCRIPTION </label>';                          
+       html += ' <input type="text" name="dp_description[]"  id="dp_description" class="form-control"  value="" > ';                                 
+       html += '</div>';   
+       html += '</div>';      
 
-            $('#new'+ name).append(html);
-        }
+       $('#new'+ name).append(html);
+   }
 
-        if(name == "EXPERIENCE" )
-        {
-            html += '<div id="NewRow">';
-            html += '<div class="form-group">';                   
-            html += '<label style=\"color:blue; font-weight:bold; \" >INTITULÉ </label>';  
-            html += '<div class="input-group mb-3">';
-            html += ' <input type="text" name="experience[]" id="experience" value="" class="form-control"  >'; 
-            html += '<div class="input-group-append">';
-            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
-            html += '</div>';
-            html += '</div>';                                
-            html += ' </div>';                     
-            html += '<div class="form-group">';                      
-            html += '<label style=\"color:blue; font-weight:bold; \" > DATE DE DÉBUT </label>';                          
-            html += '<input type="date" name="ex_startDate[]" id="ex_startDate" value="" class="form-control"  >';                                  
-            html += '</div>';                      
-            html += '<div class="form-group">';                      
-            html += ' <label style=\"color:blue; font-weight:bold; \" > DATE DE FIN </label>';                          
-            html += ' <input type="date" name="ex_endDate[]"  id="ex_endDate" value="" class="form-control"  >';                                 
-            html += ' </div>';                     
-            html += '<div class="form-group">';                      
-            html += '<label style=\"color:blue; font-weight:bold; \" > DÉSCRIPTION </label>';                          
-            html += ' <input type="text"  name="ex_description[]"  id="ex_description" class="form-control" value=""  > ';                                 
-            html += '</div>'; 
-            html += '</div>';        
+   if(name == "EXPERIENCE" )
+   {
+       html += '<div id="NewRow">';
+       html += '<div class="form-group">';                   
+       html += '<label style=\"color:blue; font-weight:bold; \" >INTITULÉ </label>';  
+       html += '<div class="input-group mb-3">';
+       html += ' <input type="text" name="experience[]" id="experience" value="" class="form-control"  >'; 
+       html += '<div class="input-group-append">';
+       html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+       html += '</div>';
+       html += '</div>';                                
+       html += ' </div>';                     
+       html += '<div class="form-group">';                      
+       html += '<label style=\"color:blue; font-weight:bold; \" > DATE DE DÉBUT </label>';                          
+       html += '<input type="date" name="ex_startDate[]" id="ex_startDate" value="" class="form-control"  >';                                  
+       html += '</div>';                      
+       html += '<div class="form-group">';                      
+       html += ' <label style=\"color:blue; font-weight:bold; \" > DATE DE FIN </label>';                          
+       html += ' <input type="date" name="ex_endDate[]"  id="ex_endDate" value="" class="form-control"  >';                                 
+       html += ' </div>';                     
+       html += '<div class="form-group">';                      
+       html += '<label style=\"color:blue; font-weight:bold; \" > DÉSCRIPTION </label>';                          
+       html += ' <input type="text"  name="ex_description[]"  id="ex_description" class="form-control" value=""  > ';                                 
+       html += '</div>'; 
+       html += '</div>';        
 
-            $('#new'+ name).append(html);
-        }     
+       $('#new'+ name).append(html);
+   }     
 
 
-    });
+});
 
 
 
 }
 
 
- function removeSection()
- {
-        $(document).on('click','#removeRow', function()
-         { 
-            
-             $(this).closest('#NewRow').remove();
+function removeSection()
+{
+   $(document).on('click','#removeRow', function()
+    { 
+       
+        $(this).closest('#NewRow').remove();
 
-         });
-        
- }
-
-
-
-
-
-
-
+    });
+   
+}
