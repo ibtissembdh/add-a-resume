@@ -674,6 +674,220 @@ function  update()
         
     }
 
+    function get_user_resume($id)
+    {
+         global $db;
+
+         $body="";
+
+         if($id)
+         {
+
+            //display Personal user information
+            $sql = "SELECT  *from user  WHERE id = $id";
+
+             $response_user = $db->query($sql);
+
+            if(isset($response_user))
+            {
+                $body .= ' <!-- Begin Wrapper -->
+                                <div id="wrapper">
+                                  <div class="wrapper-top"></div>
+                                     <div class="wrapper-mid">
+                                      <!-- Begin Paper -->
+                                      <div id="paper">
+                                         <div class="paper-top"></div>
+                                            <div id="paper-mid">';
+                                             foreach ($response_user as $row) 
+                                                 {
+                                                        $body .='
+                                                         
+                                                                 <div class="entry">
+                                                                      <!-- Begin Image -->
+                                                                       <img class="portrait" src="images/'.$row['photo'].'"  alt="" />
+                                                                        
+                                                                    
+                                                                      <!-- End Image -->
+                                                                      <!-- Begin Personal Information -->
+                                                                          <div class="self">
+                                                                            <h1 class="name"> '. $row['nom']." ". $row['prenom'] .'   <br />
+                                                                              <span> '.$row['titre'] .'</span></h1>
+                                                                            <ul>
+                                                                              <li class="mail">'.$row['email'] .'</li>
+                                                                              <li class="tel"> '.$row['tel'] .'</li>
+                                                                            </ul>
+                                                                          </div>
+                                                                      <!-- End Personal Information -->
+                                                                      <!-- Begin Social -->
+                                                                          <div class="social">
+                                                                            <ul>
+                                                                              <li><a class=\'north\' href="#" title="Download .pdf"><img src="images/icn-save.jpg" alt="Download the pdf version" /></a></li>
+                                                                              <li><a class=\'north\' href="javascript:window.print()" title="Print"><img src="images/icn-print.jpg" alt="" /></a></li>
+                                                                              <li><a class=\'north\' id="contact" href="contact/index.html" title="Contact Me"><img src="images/icn-contact.jpg" alt="" /></a></li>
+                                                                              <li><a class=\'north\' href="#" title="Follow me on Twitter"><img src="images/icn-twitter.jpg" alt="" /></a></li>
+                                                                              <li><a class=\'north\' href="#" title="My Facebook Profile"><img src="images/icn-facebook.jpg" alt="" /></a></li>
+                                                                            </ul>
+                                                                          </div>
+                                                                      <!-- End Social -->
+                                                                 </div>     
+                                                        ';
+                                } 
+
+            }
+
+                    
+
+                //display diploma information 
+
+                $sql = "SELECT *from formation WHERE user_id = $id";
+                $response_diploma = $db->query($sql);
+
+                if(isset($response_diploma))
+                 {
+                    $body .= ' <div class="entry">
+                                      <h2>FORMATION</h2> ';
+
+                        foreach ($response_diploma as $row)
+                         { 
+                            $body .= '
+                                      <div class="content">
+                                        <h3> '.$row['dp_dateDebut'] .'- '. $row['dp_dateFin'] .'</h3>
+                                         <p>'. $row['intituleF'] .' <br/>
+                                         <em> '.$row['dp_description'] .'</em></p>
+                                     </div>
+                                 ';
+
+                        
+                         }
+                     $body .= '</div> ' ;    
+
+                }
+
+                
+
+                 //display Experience information 
+
+                $sql = "SELECT *from experience WHERE user_id = $id";
+                $response_experience = $db->query($sql);
+
+                if(isset($response_experience))
+                {
+                    $body .= ' <div class="entry">
+                                <h2>EXPERIENCE</h2> ';
+
+                         foreach ($response_experience as $row)
+                         { 
+                            $body .= '                              
+                                      <div class="content">
+                                        <h3> '.$row['ex_dateDebut'] .'- '. $row['ex_dateFin'] .'</h3>
+                                         <p>'. $row['intituleE'] .' <br/>
+                                         <em> '.$row['ex_description'] .'</em></p>
+                                     </div>
+                                 ';
+          
+                         }
+                     $body .= '</div> ' ;         
+
+                }
+               
+
+
+                //display Skills
+
+                $sql = "SELECT *from competence WHERE user_id = $id";
+                $response_competence = $db->query($sql);
+
+                if(isset($response_competence))
+                {
+                    $body .='
+                    <div class="entry">
+                         <h2>COMPETENCE</h2>
+                             <div class="content">
+                                 <h3> Languages & Software Knowledge</h3>
+                                  <ul class="skills">
+                    ';
+
+                            foreach ($response_competence as $row)
+                             { 
+                                $body .= '
+                                              <li>'.$row['competence'] .'</li>
+                                          ';
+
+                                
+                             }
+                     $body .= '
+                                     </ul>
+                                  </div> 
+
+                          </div>
+
+                     ';
+
+
+                }
+
+
+                  //display hobbies
+
+                $sql = "SELECT *from loisir WHERE user_id = $id";
+                $response_loisir = $db->query($sql);
+
+                if(isset($response_loisir))
+                {
+                    $body .='
+                    <div class="entry">
+                         <h2>LOISIR</h2>
+                             <div class="content">
+                                 <h3> Loisir </h3>
+                                  <ul class="skills">
+                    ';
+
+                            foreach ($response_loisir as $row)
+                             { 
+                                $body .= '
+                                              <li>'.$row['loisir'] .'</li>
+                                          ';
+
+                                
+                             }
+                     $body .= '
+                                     </ul>
+                                  </div> 
+
+                          </div>
+
+                     ';
+
+
+                }
+
+
+            $body .=' <!-- Begin 5th Row -->
+                                     </div>
+
+                                     <div class="clear"></div>
+                                    <div class="paper-bottom"></div>
+                                 </div>
+                                <!-- End Paper -->
+                             </div>
+                             <div class="wrapper-bottom"></div>
+                          </div>
+                          <div id="message"><a href="#top" id="top-link">Go to Top</a></div>
+                        <!-- End Wrapper -->';    
+
+                         
+
+         }else{
+             echo "ID NOT FOUND";
+         }
+
+
+         return $body;
+
+
+    }
+
+
 
 
 
