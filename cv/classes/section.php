@@ -17,10 +17,20 @@ class section{
        $html  = "<section class=\"list-group-item list-group-item-action\">" ;
        $html .= "<div class=\"form-group\">";
        $html .= "<label style=\"color:blue; font-weight:bold; \" >".$this->name."</label>";
-       return $html ;
+       if( $this->name =="INFORMATION PÉRSONNEL" ||  $this->name == "MODIFIER FORMATION" || $this->name =="MODIFIER EXPERIENCE"  || $this->name == "MODIFIER LOISIR" || $this->name  == "MODIFIER COMPETENCE")
+       {
+         return $html ;
+
+       }else{
+
+        $html .= '<button style="float:right;"  id="addSection" data-name ="'.$this->name.'" type="button" class="btn btn-primary"> Add </button> ';
+        return $html ;
+
+       }
+       
    }
 
-   public Function getEndTag(){ return " </div> </section>" ; }
+   public Function getEndTag(){ return " <div id=\"new$this->name\"> </div> </div> </section>" ; }
 
    public function getFields()
    {
