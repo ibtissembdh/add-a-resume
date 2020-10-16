@@ -7,6 +7,8 @@ $(document).ready(function(){
      update_record();
      delete_record();
      search_record(); 
+     addSection();
+     removeSection();
      
 
 
@@ -317,6 +319,118 @@ function get_Record()
 
         });
     }
+
+    
+function addSection()
+{
+    $(document).on('click','#addSection' , function()
+    {
+        var name = $(this).attr('data-name');
+        var  html = "";
+        //alert(name);
+
+        if(name == "LOISIR" )
+        {
+            html += '<div id="NewRow">';
+            html += '<div class="input-group mb-3" >';
+            html += '<input type="text" name="hobbie[]"  id="hobbie" class="form-control m-input" placeholder=" " autocomplete="on">';
+            html += '<div class="input-group-append">';
+            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            $('#new'+ name).append(html);
+        }
+        if(name == "COMPETENCE" )
+        {
+            html += '<div id="NewRow">';
+            html += '<div class="input-group mb-3">';
+            html += '<input type="text" name="skill[]" id="skill" class="form-control m-input" placeholder=" " autocomplete="on" >';
+            html += '<div class="input-group-append">';
+            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>'; 
+            $('#new' + name).append(html);
+        }
+
+        if(name == "FORMATION" )
+        {
+            html += '<div id="NewRow">';
+            html += '<div class="form-group">';                   
+            html += '<label style=\"color:blue; font-weight:bold; \" >INTITULÉ </label>'; 
+            html += '<div class="input-group mb-3">';                       
+            html += ' <input type="text" name="diplomaName[]" id="diplomaName" value="" class="form-control"  >'; 
+            html += '<div class="input-group-append">';
+            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+            html += '</div>';
+            html += '</div>';                                
+            html += ' </div>';                     
+            html += '<div class="form-group">';                      
+            html += '<label style=\"color:blue; font-weight:bold; \" > DATE DE DÉBUT </label>';                          
+            html += '<input type="date" name="dp_startDate[]" id=" dp_startDate" value="" class="form-control"  >';                                  
+            html += '</div>';                      
+            html += '<div class="form-group">';                      
+            html += ' <label style=\"color:blue; font-weight:bold; \" > DATE DE FIN </label>';                          
+            html += ' <input type="date" name="dp_endDate[]"  id="dp_endDate" value="" class="form-control"  >';                                 
+            html += ' </div>';                     
+            html += '<div class="form-group">';                      
+            html += '<label style=\"color:blue; font-weight:bold; \" > DÉSCRIPTION </label>';                          
+            html += ' <input type="text" name="dp_description[]"  id="dp_description" class="form-control"  value="" > ';                                 
+            html += '</div>';   
+            html += '</div>';      
+
+            $('#new'+ name).append(html);
+        }
+
+        if(name == "EXPERIENCE" )
+        {
+            html += '<div id="NewRow">';
+            html += '<div class="form-group">';                   
+            html += '<label style=\"color:blue; font-weight:bold; \" >INTITULÉ </label>';  
+            html += '<div class="input-group mb-3">';
+            html += ' <input type="text" name="experience[]" id="experience" value="" class="form-control"  >'; 
+            html += '<div class="input-group-append">';
+            html += '<button id="removeRow" type="button" class="btn btn-danger">Remove</button>';
+            html += '</div>';
+            html += '</div>';                                
+            html += ' </div>';                     
+            html += '<div class="form-group">';                      
+            html += '<label style=\"color:blue; font-weight:bold; \" > DATE DE DÉBUT </label>';                          
+            html += '<input type="date" name="ex_startDate[]" id="ex_startDate" value="" class="form-control"  >';                                  
+            html += '</div>';                      
+            html += '<div class="form-group">';                      
+            html += ' <label style=\"color:blue; font-weight:bold; \" > DATE DE FIN </label>';                          
+            html += ' <input type="date" name="ex_endDate[]"  id="ex_endDate" value="" class="form-control"  >';                                 
+            html += ' </div>';                     
+            html += '<div class="form-group">';                      
+            html += '<label style=\"color:blue; font-weight:bold; \" > DÉSCRIPTION </label>';                          
+            html += ' <input type="text"  name="ex_description[]"  id="ex_description" class="form-control" value=""  > ';                                 
+            html += '</div>'; 
+            html += '</div>';        
+
+            $('#new'+ name).append(html);
+        }     
+
+
+    });
+
+
+
+}
+
+
+ function removeSection()
+ {
+        $(document).on('click','#removeRow', function()
+         { 
+            
+             $(this).closest('#NewRow').remove();
+
+         });
+        
+ }
+
 
 
 
