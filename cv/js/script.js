@@ -1,18 +1,17 @@
 
 $(document).ready(function(){
 
-     insert_Record();
-     view_Record();
-     get_Record();
-     update_record();
-     delete_record();
-     search_record(); 
-     addSection();
-     removeSection();
-     
-
+    insert_Record();
+    view_Record();
+    get_Record();
+    update_record();
+    delete_record();
+    search_record(); 
+    addSection();
+    removeSection();
 
 });
+
 
 
 function insert_Record()
@@ -99,14 +98,11 @@ function insert_Record()
 
 
 
-
-
-
 function view_Record(){
 
     $.ajax(
         {
-            url : ' view.php ',
+            url : 'view.php ',
             method : 'POST',
             success : function(data){
 
@@ -124,7 +120,6 @@ function view_Record(){
         });
 
 }
-
 
 
 function get_Record()
