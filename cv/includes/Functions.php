@@ -4,85 +4,193 @@ function insert()
 {
     
        global $db;
+     
+         $familyName = $_POST['familyName'];
+         $name = $_POST['name'] ;
+         $phoneNum = $_POST['phoneNum'];
+         $email = $_POST['email'];
+         $jobe = $_POST['jobe'];
+         $pic = $_POST['pic'];
+         $date = $_POST['date'];
 
-       
-                        $sql=sprintf( "INSERT into user ( `nom`, `prenom`, `tel`, `email`, `titre`, `photo`, `date`) VALUES('%s','%s','%s','%s','%s','%s','%s')",
-                        $db->real_escape_string($_POST['familyName']),
-                        $db->real_escape_string($_POST['name']),
-                        $db->real_escape_string($_POST['phoneNum']),
-                        $db->real_escape_string($_POST['email']),
-                        $db->real_escape_string($_POST['jobe']),
-                        $db->real_escape_string($_POST['pic']),
-                        $db->real_escape_string($_POST['date']));
+         $data_user = json_decode(stripslashes($_POST['data_user']));      
+                      
+        // echo '<pre>'; 
+        // print_r($data_user);
+
+                    //insert personnel user data 
+
+                    $sql=sprintf( "INSERT into user ( `nom`, `prenom`, `tel`, `email`, `titre`, `photo`, `date`) VALUES('%s','%s','%s','%s','%s','%s','%s')",
+                        $db->real_escape_string($familyName),
+                        $db->real_escape_string($name),
+                        $db->real_escape_string($phoneNum),
+                        $db->real_escape_string($email),
+                        $db->real_escape_string( $jobe), 
+                        $db->real_escape_string($pic),
+                        $db->real_escape_string($date));
 
                         if($db->query($sql))
                         {
-                            echo $id= $db->insert_id;
+                            $id= $db->insert_id;
+                        
 
-                            $sql=sprintf( "INSERT into formation (user_id,intituleF,dp_dateDebut,dp_dateFin,dp_description) VALUES($id,'%s','%s','%s','%s')",
-                            $db->real_escape_string($_POST['diplomaName']),
-                            $db->real_escape_string($_POST['dp_startDate']),
-                            $db->real_escape_string($_POST['dp_endDate']),
-                            $db->real_escape_string($_POST['dp_description']));
-           
-                                        if($db->query($sql))
-                                        {
-                                                    $sql=sprintf( "INSERT into experience (user_id,intituleE,ex_dateDebut,ex_dateFin,ex_description) VALUES($id,'%s','%s','%s','%s')",
-                                                    $db->real_escape_string($_POST['experience']),
-                                                    $db->real_escape_string($_POST['ex_startDate']),
-                                                    $db->real_escape_string($_POST['ex_endDate']),
-                                                    $db->real_escape_string($_POST['ex_description']));
-                                        
-                                                                if($db->query($sql))
-                                                                {
-                                                                    $sql=sprintf( "INSERT into competence (user_id,competence) VALUES($id,'%s')",
-                                                                    $db->real_escape_string($_POST['skill']));
-                                                                   
-                                                               
-                                                                            if($db->query($sql))
-                                                                            {
-                                                                               
-                                                                                $sql=sprintf( "INSERT into loisir (user_id,loisir) VALUES($id,'%s')",
-                                                                                $db->real_escape_string($_POST['hobbie']));
-                                                                   
-                                                                                        if($db->query($sql))
-                                                                                    {
-                                                                                        echo "<div class='alert alert-success'> Les informations ont été bien enregistrées </div> ";
-                                                                            
-                                                                                    }
-                                                                    
-                                                                            }else{
-                                                                                
-                                                                                echo "<div class='alert alert-warning'> Les informations competence n'ont pas été bien enregistrées </div> ";
-                                                        
-                                                                            }
-                                                        
-                                                                }else{
-                                                                    
-                                                                    echo "<div class='alert alert-warning'> Les informations experience n'ont pas été bien enregistrées</div> ";
-                                            
-                                                                }
-                                
-                                        }else{
-                                            
-                                            echo "<div class='alert alert-warning'> Les informations formation n'ont pas été bien enregistrées </div> ";
-                    
-                                        }
-   
-                           
-                
                         }else{
-                            
-                            echo "<div class='alert alert-warning'> Les informations personnel n'ont pas été bien enregistrées </div> ";
-    
+
+                            echo "<div class='alert alert-warning'> Les informations formation n'ont pas été bien enregistrées </div> ";
+                             $data_user_error = true ;
                         }
 
-                         
                        
 
+                     if (isset($data_user) and isset($id))
+                     {
+                                // diploma data         
+                                 $diplomaName = $data_user->diplomaName->diplomaName;
+                                 $dp_startDate = $data_user->dp_startDate->dp_startDate;
+                                 $dp_endDate = $data_user->dp_endDate->dp_endDate;
+                                 $dp_description = $data_user->dp_description->dp_description;
+
+                                 //experience data
+                                 $experience = $data_user->experience->experience;
+                                 $ex_startDate = $data_user->ex_startDate->ex_startDate;
+                                 $ex_endDate = $data_user->ex_endDate->ex_endDate;
+                                 $ex_description = $data_user->ex_description->ex_description;
+
+                                //skills data
+                                 $skill = $data_user->skill->skill;
+
+                                 //hobbies data
+                                 $hobbie = $data_user->hobbie->hobbie;
+
+                                 $data_user_error = "" ;
+
+                                 //insert diploma data
+                                 if( !empty($diplomaName)  AND $dp_startDate !='' AND $dp_endDate !='' AND  $dp_description !='' )
+                                {
+                                     foreach($diplomaName as $key => $value)
+                                     {
+                                         
+                                         $sql=sprintf( "INSERT into formation (user_id,intituleF,dp_dateDebut,dp_dateFin,dp_description) VALUES( $id ,'%s','%s','%s','%s')",
+                                             $db->real_escape_string($value),
+                                             $db->real_escape_string($dp_startDate[$key]),
+                                             $db->real_escape_string($dp_endDate[$key]),
+                                             $db->real_escape_string($dp_description[$key]));
+
+                                             if($db->query($sql))
+                                             {
+                                                 $data_user_error = false;
+
+
+                                             }else{
+
+                                                 $data_user_error = true ;
+                                                 echo "<div class='alert alert-warning'> Les informations formation n'ont pas été bien enregistrées</div> ";
+                                            }
+
+
+                                     }
+                                
+
+                                }
+
+                                //insert experience data
+                                if( $experience  != "" AND $ex_startDate != "" AND $ex_endDate != "" AND $ex_description != "")
+                                {
+                                     foreach($experience as $key =>$value )
+                                     {
+                                        
+                                        $sql=sprintf( "INSERT into experience (user_id,intituleE,ex_dateDebut,ex_dateFin,ex_description) VALUES($id,'%s','%s','%s','%s')",
+                                                 $db->real_escape_string($value),
+                                                 $db->real_escape_string($ex_startDate[$key]),
+                                                 $db->real_escape_string($ex_endDate[$key]),
+                                                 $db->real_escape_string($ex_description[$key]));
+
+                                                 if($db->query($sql))
+                                                 {
+                                                     $data_user_error = false ;
+
+                                                 }else{
+
+                                                    $data_user_error = true ;
+                                                    echo "<div class='alert alert-warning'> Les informations experience n'ont pas été bien enregistrées</div> ";
+                                                       
+                                                }
+
+
+                                       }                      
+                                    
+                                     
+                                }
+
+                                //insert skills data
+                                if( $skill !="")
+                                {
+                                     foreach($skill as $key =>$value)
+                                     {
+                                         
+                                         $sql=sprintf( "INSERT into competence (user_id,competence) VALUES($id,'%s')",
+                                                  $db->real_escape_string($value));
+
+                                                  if($db->query($sql))
+                                                  {
+                                                     $data_user_error = false ;
+
+                                                  }else{
+
+                                                        $data_user_error = true ;
+                                                        echo "<div class='alert alert-warning'> Les informations loisir n'ont pas été bien enregistrées</div> ";
+          
+                                                    }
+
+
+                                         }
+
+                                
+                       
+                                 }
+
+                                //insert hobbies data
+                                if( $hobbie !="")
+                                {
+                                     foreach($hobbie as $key =>$value)
+                                     {
+                                        
+                                         $sql=sprintf( "INSERT into loisir (user_id,loisir) VALUES($id,'%s')",
+                                                  $db->real_escape_string($value));
+                                            
+                                         if($db->query($sql))
+                                         {
+
+                                             $data_user_error = false ;
+
+                                          }else{
+
+                                            $data_user_error = true ;
+                                            echo "<div class='alert alert-warning'> Les informations competence n'ont pas été bien enregistrées</div> ";
+                                            
+                                             
+                                                 }
+
+                                                             
+                                
+                                        }
+                                 
+                         
+                              }
+
+                    }
+
+
+
+                 if($data_user_error == false)
+                 {
+                    echo "<div class='alert alert-success'> Les informations ont été bien enregistrées </div> ";
+                    
+                 }    
 
         
 }
+
 
 
 
