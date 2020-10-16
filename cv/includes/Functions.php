@@ -197,7 +197,14 @@ function insert()
 function display()
 {
     global $db;
-    $table="<table  class=\"table\">
+
+         $sql=" SELECT u.nom , u.prenom , u.titre ,  u.id , GROUP_CONCAT( DISTINCT f.intituleF) diplomaNames , GROUP_CONCAT( DISTINCT  e.intituleE) ExperienceNames  FROM  user u  LEFT JOIN formation f ON f.user_id= u.id  LEFT JOIN experience e ON  e.user_id=u.id GROUP BY  u.id ORDER BY  u.nom ASC  ";
+
+         $result=$db->query($sql); 
+
+        if($result)
+        {
+             $table="<table  class=\"table\">
              <thead class=\"thead-dark\">
                 <tr>
                     <th scope=\"col \"> Nom&Prénom </th>
@@ -210,17 +217,20 @@ function display()
               <tbody>";
 
 
-    $sql=sprintf( "SELECT u.nom , u.prenom , u.titre , f.intituleF , e.intituleE , u.id   from  user u ,formation f,experience e where u.id=f.user_id and u.id=e.user_id  ");
+   
 
-            $result=$db->query($sql);
+          
 
             foreach($result as $row)
             {
-                $table .='<tr>
+               // echo "<pre>";
+               // print_r($row);
+                 
+                  $table .='<tr>
                     <th scope="row">'. htmlspecialchars($row['nom'],ENT_QUOTES) ." ". htmlspecialchars( $row['prenom'],ENT_QUOTES). '</th>
                         <td>'. htmlspecialchars($row['titre'],ENT_QUOTES) .'</td>
-                        <td> '. htmlspecialchars($row['intituleF'],ENT_QUOTES) .'</td>
-                        <td> '. htmlspecialchars($row['intituleE'],ENT_QUOTES) .'</td>
+                        <td> '. htmlspecialchars($row['diplomaNames'],ENT_QUOTES) .'</td>
+                        <td> '. htmlspecialchars($row['ExperienceNames'],ENT_QUOTES) .'</td>
                         <td> 
                             <button class="btn btn-primary" data-id='. htmlspecialchars($row['id'],ENT_QUOTES) .'  id="btn_edit" data-toggle="modal" data-target="#update" > 
                                  <span class="fas fa-pencil-alt" style="color:white;" > </span> 
@@ -230,19 +240,36 @@ function display()
                                   <span class="fas fa-trash-alt" style="color:white;"></span >
                              </button>
 
-                             <button class="btn btn-success" style="margin-left:5px;" data-id2='. htmlspecialchars($row['id'],ENT_QUOTES) .' id="btn_more" data-toggle="modal" data-target=" "  >
-                             <a class="fas fa-plus" style="color:white;" href="./resume.php?id='.$row['id'] .'"></a >
-                        </button>
+                             <button class="btn btn-success" style="margin-left:5px;" data-id='. htmlspecialchars($row['id'],ENT_QUOTES) .' id="btn_more" >
+                                  <a class="fas fa-plus" style="color:white;" href="./resume.php?id='.$row['id'] .'"></a>
+                            </button>
                          </td>
-                </tr>';   
+                </tr>';  
+               
+            
 
-              };
+            }
+                         
 
               $table .='</tbody> </table>';
 
-              echo  $table ;
-}
+            
+           
+        }else{
 
+            echo " CHECK YOUR QUERY" ;
+        }
+
+          
+
+              echo  $table ;
+
+
+    
+   
+
+              
+}
 
 
 
