@@ -248,12 +248,8 @@ function get_Record()
 
             var  id = $(this).attr('data-id1'); 
 
-            $('#message-delete').html("voulez vous vraiment supprimer ce CV ? </br> si oui cliquez sur le bouton delete Now");   
-
-           // $('#delete').modal('show');          
+            $('#message-delete').html("voulez vous vraiment supprimer ce CV ? </br> si oui cliquez sur le bouton delete Now");         
     
-        
-
         
             $(document).on('click','#btn_delete_record', function()
             {
@@ -284,6 +280,7 @@ function get_Record()
         });
 
     }
+
 
 
     function search_record()
