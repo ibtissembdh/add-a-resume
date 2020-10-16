@@ -4,15 +4,18 @@ class Field {
     Public $label;
     public $type;
     public $name;
+    public $id;
     public $value;
     public $placeholder;
 
-    public function __construct($label ,$type, $name ,$value ,$placeholder){
+    public function __construct($label ,$type, $name , $id , $value ,$placeholder){
         $this->label = $label;
         $this->type = $type;
         $this->name = $name;
+        $this->id = $id;
         $this->value = $value;
         $this->placeholder = $placeholder;
+
     }
 
     public function getName(){
@@ -27,11 +30,13 @@ class Field {
                     $html .= "<input  class=\"form-control\" ";
                     $html .= " type=\"$this->type\"";
                     $html .= " name=\"$this->name\"";
-                    $html .= " id=\"$this->name\"";
-                    $html .= " placeholder=\"$this->placeholder\"";
+                    $html .= " id=\"$this->id\"";
+                    $html .= " value=\"$this->value\" "; 
+                    $html .= " placeholder=\"$this->placeholder\"  ";
                     $html .= ">"; 
                     $html .= '</div>';  
-                    $html .= '</div>';                                            
+                    $html .= '</div>';   
+                                                             
                 
                     return $html;
     
