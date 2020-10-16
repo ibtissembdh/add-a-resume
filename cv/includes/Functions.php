@@ -414,24 +414,6 @@ function display()
         
     }
 
-    
-
-    function delete()
-    {
-        global $db;
-
-        $id = $_POST['id'];
-        
-        $sql="DELETE FROM  user   WHERE user.id=' $id '" ; 
-        $query= $db->query($sql);
-
-        if($query)
-        {
-            echo "<div class='alert alert-success'> Le cv  a  été supprimé </div> ";
-
-        }
-        
-    }
     function delete()
     {
         global $db;
@@ -450,7 +432,6 @@ function display()
     }
 
     
-
     function search()
     {
         global $db;
