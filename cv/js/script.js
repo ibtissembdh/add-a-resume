@@ -289,11 +289,11 @@ function get_Record()
         {
             var data = $('#search').val();
 
-                    if(data.length>1 && data !="")
+                    if(data.length>2 && data !="")
                     {
                                 $.ajax({
-                                type: 'post',
                                 url: 'search.php',
+                                method: 'post',
                                 data:{ data:data },
                                 success: function (response) {
                                     if(data !=""){

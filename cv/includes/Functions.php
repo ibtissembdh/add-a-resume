@@ -438,6 +438,7 @@ function display()
 
         $data=$_POST['data'];
 
+
         $table="<table  class=\"table\">
              <thead class=\"thead-dark\">
                 <tr>
@@ -451,36 +452,40 @@ function display()
               <tbody>";
 
 
-    $sql=sprintf( "SELECT* from  user u ,formation f,experience e where  u.id=f.user_id and u.id=e.user_id and  u.titre  LIKE '%".$data."%'  ");
+     $sql =" SELECT * FROM user, formation , experience  WHERE ( user.nom LIKE '%".$data."%' OR user.prenom LIKE '%".$data."%' OR user.titre LIKE '%".$data."%' OR formation.intituleF LIKE '%".$data."%' OR experience.intituleE LIKE '%".$data."%' ) and user.id=formation.user_id and user.id=experience.user_id  " ;
 
             $result=$db->query($sql);
 
-            foreach($result as $row)
+            if(mysqli_num_rows($result)>0)
             {
-                $table .='<tr>
-                    <th scope="row">'. htmlspecialchars($row['nom'],ENT_QUOTES) ." ". htmlspecialchars( $row['prenom'],ENT_QUOTES). '</th>
-                        <td>'. htmlspecialchars($row['titre'],ENT_QUOTES) .'</td>
-                        <td> '. htmlspecialchars($row['intituleF'],ENT_QUOTES) .'</td>
-                        <td> '. htmlspecialchars($row['intituleE'],ENT_QUOTES) .'</td>
-                        <td> 
-                            <button class="btn btn-primary" data-id='. htmlspecialchars($row['id'],ENT_QUOTES) .'  id="btn_edit" data-toggle="modal" data-target="#update" > 
-                                 <span class="fas fa-pencil-alt" style="color:white;" > </span> 
-                            </button>
+                
 
-                            <button class="btn btn-danger" style="margin-left:5px;" data-id1='. htmlspecialchars($row['id'],ENT_QUOTES) .' id="btn_delete" data-toggle="modal" data-target="#delete"  >
-                                  <span class="fas fa-trash-alt" style="color:white;"></span >
-                             </button>
+                    foreach($result as $row)
+                    {
+                        $table .='<tr>
+                            <th scope="row">'. htmlspecialchars($row['nom'],ENT_QUOTES) ." ". htmlspecialchars( $row['prenom'],ENT_QUOTES). '</th>
+                                <td>'. htmlspecialchars($row['titre'],ENT_QUOTES) .'</td>
+                                <td> '. htmlspecialchars($row['intituleF'],ENT_QUOTES) .'</td>
+                                <td> '. htmlspecialchars($row['intituleE'],ENT_QUOTES) .'</td>
+                                <td> 
+                                 <button class="btn btn-primary" data-id='. htmlspecialchars($row['id'],ENT_QUOTES) .'  id="btn_edit" data-toggle="modal" data-target="#update" > 
+                                     <span class="fas fa-pencil-alt" style="color:white;" > </span> 
+                                 </button>
 
-                             <button class="btn btn-success" style="margin-left:5px;" data-id2='. htmlspecialchars($row['id'],ENT_QUOTES) .' id="btn_more" data-toggle="modal" data-target=" "  >
-                             <span class="fas fa-plus" style="color:white;"></span >
-                        </button>
-                         </td>
-                </tr>';   
+                                 <button class="btn btn-danger" style="margin-left:5px;" data-id1='. htmlspecialchars($row['id'],ENT_QUOTES) .' id="btn_delete" data-toggle="modal" data-target="#delete"  >
+                                        <span class="fas fa-trash-alt" style="color:white;"></span >
+                                 </button>
 
-              };
+                                 <button class="btn btn-success" style="margin-left:5px;" data-id='. htmlspecialchars($row['id'],ENT_QUOTES) .' id="btn_more"   >
+                                        <a class="fas fa-plus" style="color:white;" href="./resume.php?id='.$row['id'] .'"></a>
+                                 </button>
+                                </td>
+                        </tr>';   
 
-              $table .='</tbody> </table>';
+                    };
 
+                    $table .='</tbody> </table>';
+            }
               echo  $table ;
         
     }
