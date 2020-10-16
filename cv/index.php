@@ -8,12 +8,12 @@
         <link rel="stylesheet" href="css/style.css">
         
         <script src="js/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script src="https://kit.fontawesome.com/9cfe163ae0.js" crossorigin="anonymous"></script>
+        <script src="js/bootstrap.min.js"></script>       
+         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+         <script src="https://kit.fontawesome.com/9cfe163ae0.js" crossorigin="anonymous"></script>
         <script src="js/script.js"></script>
+        
         <title>Document</title>
 </head>
 <body>
@@ -31,7 +31,7 @@
                 </form>
         </nav>
 
-        <h1 > <center> Liste des curriculum vitæ  </center>  </h1>
+        <h1 > <center> Liste des curriculum  </center>  </h1>
 
         <div id="table"> </div>
 
@@ -47,43 +47,45 @@
 
 
                         
-                        $user[] = new Field('VOTRE PHOTO','file', 'pic' ,'','');
-                        $user[] = new Field('VOTRE NOM','text', 'name','','');
-                        $user[] = new Field('VOTRE PRÉNOM','text', 'familyName','',''); 
-                        $user[] = new Field('VOTRE MÉTIER','text', 'jobe','','');   
-                        $user[] = new Field('VOTRE ADRESSE EMAIL','email', 'email','',''); 
-                        $user[] = new Field('VOTRE TÉLEPHONE','text', 'phoneNum','',''); 
-                        $user[] = new Field('DATE DE NAISSANCE','date', 'date','',''); 
+                        $user[] = new Field('VOTRE PHOTO','file', 'pic' , 'pic' ,'','');
+                        $user[] = new Field('VOTRE NOM','text', 'name', 'name' ,'','');
+                        $user[] = new Field('VOTRE PRÉNOM','text', 'familyName', 'familyName' ,'',''); 
+                        $user[] = new Field('VOTRE MÉTIER','text', 'jobe', 'jobe' ,'','');   
+                        $user[] = new Field('VOTRE ADRESSE EMAIL','email', 'email', 'email' ,'',''); 
+                        $user[] = new Field('VOTRE TÉLEPHONE','text', 'phoneNum', 'phoneNum' ,'',''); 
+                        $user[] = new Field('DATE DE NAISSANCE','date', 'date', 'date' ,'',''); 
                       
 
                         $sections[] = new section('INFORMATION PÉRSONNEL' , $user );
                                
 
-                        $diploma[] = new Field('INTITULÉ','text', 'diplomaName' ,'','');
-                        $diploma[] = new Field('DATE DE DÉBUT','date', 'dp_startDate','',''); 
-                        $diploma[] = new Field('DATE DE FIN','date', 'dp_endDate','',''); 
-                        $diploma[] = new Field('DÉSCRIPTION','text', 'dp_description','','');
+                        $diploma[] = new Field('INTITULÉ','text', 'diplomaName[]' , 'diplomaName' ,'','');
+                        $diploma[] = new Field('DATE DE DÉBUT','date', 'dp_startDate[]', 'dp_startDate','',' '); 
+                        $diploma[] = new Field('DATE DE FIN','date', 'dp_endDate[]', 'dp_endDate' ,'',''); 
+                        $diploma[] = new Field('DÉSCRIPTION','text', 'dp_description[]', 'dp_description' ,'','');
 
                         $sections[]= new section('FORMATION' , $diploma );
 
   
-                        $experience[] = new Field('INTITULÉ','text', 'experience' ,'','');
-                        $experience[] = new Field('DATE DE DÉBUT','date', 'ex_startDate','',''); 
-                        $experience[] = new Field('DATE DE FIN','date', 'ex_endDate','',''); 
-                        $experience[] = new Field('DÉSCRIPTION','text', 'ex_description','','');
+                        $experience[] = new Field('INTITULÉ','text', 'experience[]' , 'experience' ,'','');
+                        $experience[] = new Field('DATE DE DÉBUT','date', 'ex_startDate[]', 'ex_startDate' ,'',''); 
+                        $experience[] = new Field('DATE DE FIN','date', 'ex_endDate[]', 'ex_endDate' ,'',''); 
+                        $experience[] = new Field('DÉSCRIPTION','text', 'ex_description[]', 'ex_description' ,'','');
 
                         $sections[]= new section('EXPERIENCE' , $experience );
 
 
-                        $skills[] = new Field('VOTRE COMPETENCE','text', 'skill','',' Entrer competence');
-                        $sections[] = new section('COMPETENCE' , $skills );
+                        $skills[] = new Field('VOTRE COMPETENCE','text', 'skill[]', 'skill' ,'','Entrer competence');
+                        $sections['COMPETENCE'] = new section('COMPETENCE' , $skills );
 
-                        $hobbies[] = new Field('VOTRE LOISIR','text', 'hobbie','','Enter loisir');
+                        $hobbies[] = new Field('VOTRE LOISIR','text', 'hobbie[]', 'hobbie' ,'','Enter loisir');
                         $sections[] = new section('LOISIR' , $hobbies );              
 
 
                         $form = new Form('POST','Form', $sections);
 
+                        
+                      
         //view              
 
         echo $modal_registration->getTagModal();
@@ -96,89 +98,45 @@
                                 {
                                        echo  $section ->getStartTag();
 
+                                                
                                                 foreach($section->getFields() as $field)
                                                 {
                                                 
                                                         echo  $field->getTag() . PHP_EOL;
-                                                
+
+                                                       
                                                 }
+                                                        
+
                                         echo  $section->getEndTag();
 
 
-                                }                   
-                                        
+                                }  
+                                                 
                         echo $form->getEndTag();
 
                 echo $modal_registration->EndTagBodyModel();
         echo $modal_registration->getFooterModal();
-
+        
         
         /* ----------------------------------------------------------------------------------------------------------------------- */
 
         $modal_update= new modal("update" , "modifier votre cv ", "btn_close","btn_update","update Now ");
 
-                        $up_user[] = new Field('VOTRE PHOTO','file', 'up_pic' ,'','');
-                        $up_user[] = new Field('VOTRE NOM','text', 'up_name','','');
-                        $up_user[] = new Field('VOTRE PRÉNOM','text', 'up_familyName','',''); 
-                        $up_user[] = new Field('VOTRE MÉTIER','text', 'up_jobe','','');   
-                        $up_user[] = new Field('VOTRE ADRESSE EMAIL','email', 'up_email','',''); 
-                        $up_user[] = new Field('VOTRE TÉLEPHONE','text', 'up_phoneNum','',''); 
-                        $up_user[] = new Field('DATE DE NAISSANCE','date', 'up_date','',''); 
-                        $up_user[] = new Field('','hidden', 'up_id','',''); 
-
-                        $up_sections[] = new section('INFORMATION PÉRSONNEL' , $up_user );
-                               
-
-                        $up_diploma[] = new Field('INTITULÉ','text', 'up_diplomaName' ,'','');
-                        $up_diploma[] = new Field('DATE DE DÉBUT','date', 'up_dp_startDate','',''); 
-                        $up_diploma[] = new Field('DATE DE FIN','date', 'up_dp_endDate','',''); 
-                        $up_diploma[] = new Field('DÉSCRIPTION','text', 'up_dp_description','','');
-
-                        $up_sections[]= new section('FORMATION' , $up_diploma );
-
-  
-                        $up_experience[] = new Field('INTITULÉ','text', 'up_experience' ,'','');
-                        $up_experience[] = new Field('DATE DE DÉBUT','date', 'up_ex_startDate','',''); 
-                        $up_experience[] = new Field('DATE DE FIN','date', 'up_ex_endDate','',''); 
-                        $up_experience[] = new Field('DÉSCRIPTION','text', 'up_ex_description','','');
-
-                        $up_sections[]= new section('EXPERIENCE' , $up_experience );
-
-
-                        $up_skills[] = new Field('VOTRE COMPETENCE','text', 'up_skill','',' Entrer competence');
-                        $up_sections[] = new section('COMPETENCE' , $up_skills );
-
-                        $up_hobbies[] = new Field('VOTRE LOISIR','text', 'up_hobbie','','Enter loisir');
-                        $up_sections[] = new section('LOISIR' , $up_hobbies );              
-
-
-                        $up_form = new Form('POST','Form', $up_sections);
-
-
-//view              
+                         
+         //view 
 
                 echo $modal_update->getTagModal();
 
                 echo $modal_update->getTagBodyModal();
 
-                        echo $up_form->getStartTag() . PHP_EOL;
-                                
-                                foreach($up_form->getSections() as $up_section )
-                                {
-                                echo  $up_section ->getStartTag();
+                        
+                        // We'll Get Modal content from get_Record script function
+                    ?> 
 
-                                                foreach($up_section->getFields() as $up_field)
-                                                {
-                                                
-                                                        echo  $up_field->getTag() . PHP_EOL;
-                                                
-                                                }
-                                        echo  $up_section->getEndTag();
+                        <div id="modal_content"> </div>
 
-
-                                }                   
-                                        
-                        echo $up_form->getEndTag();
+                    <?php
 
                 echo $modal_update->EndTagBodyModel();
                 echo $modal_update->getFooterModal();
