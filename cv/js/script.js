@@ -4,7 +4,7 @@ $(document).ready(function(){
     insert_Record();
     view_Record();
     get_Record();
-   // update_record();
+    update_record();
     delete_record();
     search_record(); 
     addSection();
@@ -153,6 +153,89 @@ function get_Record()
 
             
         
+    });
+}
+
+function update_record()
+{
+    $(document).on('click','#btn_update', function()
+        {
+             var   pic= $('#up_pic').val();
+             var   name = $('#up_name').val();
+             var   familyName = $('#up_familyName').val();
+             var   jobe= $('#up_jobe').val();
+             var   email = $('#up_email').val();
+             var   phoneNum = $('#up_phoneNum').val();
+             var   date = $('#up_date').val();
+             var   id = $('#up_id').val();
+
+
+             var diplomaName = $("input[name='up_diplomaName[]']").map(function(){return $(this).val();}).get();
+             var dp_startDate = $("input[name='up_dp_startDate[]']").map(function(){return $(this).val();}).get();
+             var dp_endDate = $("input[name='up_dp_endDate[]']").map(function(){return $(this).val();}).get();
+             var dp_description = $("input[name='up_dp_description[]']").map(function(){return $(this).val();}).get();
+
+           
+             var experience = $("input[name='up_experience[]']").map(function(){return $(this).val();}).get();
+             var ex_startDate = $("input[name='up_ex_startDate[]']").map(function(){return $(this).val();}).get();
+             var ex_endDate = $("input[name='up_ex_endDate[]']").map(function(){return $(this).val();}).get();
+             var ex_description = $("input[name='up_ex_description[]']").map(function(){return $(this).val();}).get();
+            
+             var   skill = $("input[name='up_skill[]']").map(function(){return $(this).val();}).get();
+            
+             var  hobbie = $("input[name='up_hobbie[]']").map(function(){return $(this).val();}).get();
+
+             var myObject = {diplomaName :{diplomaName} , dp_startDate :{dp_startDate} , dp_endDate :{dp_endDate} , dp_description :{dp_description} , experience :{experience} , ex_startDate :{ex_startDate} , ex_endDate :{ex_endDate}, ex_description :{ex_description} ,skill :{skill} ,hobbie :{hobbie} };
+        
+
+             var data_user = JSON.stringify(myObject);
+        
+         console.log(myObject);
+
+         //alert(myObject['diplomaName']['diplomaName'][0]);
+
+         //alert(id);
+
+
+            if( id = "" || name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" )
+          {
+
+                $('#message-update').html("<div class='alert alert-warning'> veuilllez remplir tous les champs svp </div> ");
+                $('#update').modal('show');
+                
+                
+
+          }else{
+
+                
+                 $.ajax(
+                    {
+                         url: 'update.php',
+                         method:'POST',
+                         data:{ id:id ,pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date , data_user:data_user },
+                         success: function(response)
+                         {
+
+                            
+                              $('#message-update').html(response);
+                              $('#update').modal('show');
+                              $('form').trigger('reset');
+                              view_Record();
+                        }
+
+                   });   
+
+
+            
+
+        }
+    });
+
+
+    $(document).on('click','#btn_close',function(){
+        $('form').trigger('reset');
+        $('#message-update').html('');
+
     });
 }
 
