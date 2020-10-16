@@ -273,53 +273,135 @@ function display()
 
 
 
- function get_user_Record()
-    {
-        global $db;
-        
-       
-            
-            $id = $_POST['id'];
+function get_user_Record()
+{
+           
 
-                 $sql=sprintf ("SELECT * FROM user u,competence c,loisir l ,formation f,experience e WHERE u.id=$id and c.user_id =$id and  l.user_id=$id and f.user_id =$id and e.user_id =$id  ");
+             global $db;
 
-                $result=$db->query($sql);
-                
-                foreach($result as $row)
-                {
-                    $data[]="";
-                    $data[0] = $row['photo'];
-                    $data[1]  =$row['nom'];
-                    $data[2]  =$row['prenom'];
-                    $data[3]  =$row['titre'];
-                    $data[4]  =$row['email'];
-                    $data[5]  =$row['tel'];
-                    $data[6]  =$row['date'];
+                require "./classes/Form.php";
+                require "./classes/Field.php";
+                require "./classes/Modal.php";
+                require "./classes/section.php";
 
-                    $data[7]  =$row['intituleF'];
-                    $data[8]  =$row['dp_dateDebut'];
-                    $data[9]  =$row['dp_dateFin'];
-                    $data[10]  =$row['dp_description'];
+          
+                    $id = $_POST['id'];
 
-                    $data[11]  =$row['intituleE'];
-                    $data[12]  =$row['ex_dateDebut'];
-                    $data[13]  =$row['ex_dateFin'];
-                    $data[14]  =$row['ex_description'];
+                    
 
-                    $data[15]  =$row['loisir'];
-                    $data[16]  =$row['competence'];
-
-                    $data[17] =$id;
+                    // create inputs
                    
-                }
 
-               echo json_encode($data);
-              
-         
+                    $sql="SELECT * FROM  user u  where u.id = $id ";  $response_user =$db->query($sql); 
 
-         
-    }
+                   if(isset($response_user)){ foreach ($response_user as $row) {
+                         
+                                       
+                                        $up_user[] = new Field('VOTRE PHOTO','file', 'up_pic' , 'up_pic',$row['photo'],'');
+                                        $up_user[] = new Field('VOTRE NOM','text', 'up_name', 'up_name',$row['nom'],'');
+                                        $up_user[] = new Field('VOTRE PRÉNOM','text', 'up_familyName', 'up_familyName',$row['prenom'],''); 
+                                        $up_user[] = new Field('VOTRE MÉTIER','text', 'up_jobe', 'up_jobe',$row['titre'],'');   
+                                        $up_user[] = new Field('VOTRE ADRESSE EMAIL','email', 'up_email', 'up_email',$row['email'],''); 
+                                        $up_user[] = new Field('VOTRE TÉLEPHONE','text', 'up_phoneNum', 'up_phoneNum',$row['tel'],''); 
+                                        $up_user[] = new Field('DATE DE NAISSANCE','date', 'up_date', 'up_date',$row['date'],''); 
+                                        $up_user[] = new Field('','hidden', 'up_id','up_id',$row['id'],''); 
+                                       
+                                        
 
+
+                                    }};
+
+
+                    $sql="SELECT * FROM  formation f  where  f.user_id = $id ";  $response_diploma =$db->query($sql);                            
+
+                   if(isset($response_diploma)){ foreach ($response_diploma as $row) {                          
+                    
+                                        $up_diploma[] = new Field('INTITULÉ','text', 'up_diplomaName[]' , 'up_diplomaName',$row['intituleF'],'');
+                                        $up_diploma[] = new Field('DATE DE DÉBUT','date', 'up_dp_startDate[]', 'up_dp_startDate',$row['dp_dateDebut'],''); 
+                                        $up_diploma[] = new Field('DATE DE FIN','date', 'up_dp_endDate[]', 'up_dp_endDate',$row['dp_dateFin'],''); 
+                                        $up_diploma[] = new Field('DÉSCRIPTION','text', 'up_dp_description[]', 'up_dp_description ',$row['dp_description'],'');
+
+                                        
+
+                                    }};
+
+
+
+                    $sql="SELECT * FROM   experience e where e.user_id = $id ";  $response_experience =$db->query($sql); 
+
+                   if(isset($response_experience)){ foreach ($response_experience as $row) {
+                 
+                                        $up_experience[] = new Field('INTITULÉ','text', 'up_experience[]' , 'up_experience',$row['intituleE'],'');
+                                        $up_experience[] = new Field('DATE DE DÉBUT','date', 'up_ex_startDate[]', 'up_ex_startDate',$row['ex_dateDebut'],''); 
+                                        $up_experience[] = new Field('DATE DE FIN','date', 'up_ex_endDate[]', 'up_ex_endDate',$row['ex_dateFin'],''); 
+                                        $up_experience[] = new Field('DÉSCRIPTION','text', 'up_ex_description[]', 'up_ex_description',$row['ex_description'],'');
+
+                                       
+
+                                    }};
+
+
+
+                    $sql="SELECT * FROM   competence c  where  c.user_id = $id "; $response_skills =$db->query($sql); 
+
+                    if(isset($response_skills)){ foreach ($response_skills as $row) {
+
+                                        $up_skills[] = new Field('VOTRE COMPETENCE','text', 'up_skill[]', 'up_skill',$row['competence'],'Entrer competence');
+                                        
+
+                                     }};
+
+
+                    $sql="SELECT * FROM   loisir l  where l.user_id = $id ";  $response_hobbies =$db->query($sql); 
+
+                    if(isset($response_hobbies)){ foreach ($response_hobbies as $row) {                    
+
+                                        $up_hobbies[] = new Field('VOTRE LOISIR','text', 'up_hobbie[]', 'up_hobbie',$row['loisir'],'Entrer loisir');
+                                        
+                                    }};
+
+
+                                    // put inputs in sections
+                                    if(isset($up_user)){ $up_sections[] = new section('INFORMATION PÉRSONNEL' , $up_user ); } 
+                                     if(isset($up_diploma)){$up_sections[]= new section('MODIFIER FORMATION' , $up_diploma ); }
+                                    if(isset($up_experience)){$up_sections[]= new section('MODIFIER EXPERIENCE' , $up_experience ); }
+                                    if(isset($up_skills)){ $up_sections[] = new section('MODIFIER COMPETENCE' , $up_skills ); } 
+                                    if(isset($up_hobbies)){$up_sections[] = new section('MODIFIER LOISIR' , $up_hobbies );  }               
+
+
+
+
+                           //display inputs 
+
+                                        $up_form = new Form('POST','Form', $up_sections); 
+
+
+                                        
+                                         echo $up_form->getStartTag() . PHP_EOL;
+                               
+                                               foreach($up_form->getSections() as $up_section )
+                                               {
+                                                   echo  $up_section ->getStartTag();
+
+                                                                   foreach($up_section->getFields() as $up_field)
+                                                                   {
+                                                                   
+                                                                           echo  $up_field->getTag() . PHP_EOL;
+                                                                   
+                                                                   }
+                                                     echo  $up_section->getEndTag();
+
+
+                                               }                   
+                                                       
+                                       echo $up_form->getEndTag();
+
+                                      
+                           
+                       
+                                 
+            
+}
     
 
     function  update()
