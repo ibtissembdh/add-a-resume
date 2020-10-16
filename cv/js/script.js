@@ -18,57 +18,69 @@ function insert_Record()
 
     $(document).on('click','#btn_registration',function(){
         
-        var   pic= $('#pic').val();
-        var   name = $('#name').val();
-        var   familyName = $('#familyName').val();
-        var   jobe= $('#jobe').val();
-        var   email = $('#email').val();
-        var   phoneNum = $('#phoneNum').val();
-        var   date = $('#date').val();
+         var   pic= $('#pic').val();
+         var   name = $('#name').val();
+         var   familyName = $('#familyName').val();
+         var   jobe= $('#jobe').val();
+         var   email = $('#email').val();
+         var   phoneNum = $('#phoneNum').val();
+         var   date = $('#date').val();
 
-        var   diplomaName = $('#diplomaName').val();
-        var   dp_startDate = $('#dp_startDate').val();
-        var   dp_endDate = $('#dp_endDate').val();
-        var   dp_description = $('#dp_description').val();
 
-        var   experience = $('#experience').val();
-        var   ex_startDate = $('#ex_startDate').val();
-        var   ex_endDate = $('#ex_endDate').val();
-        var   ex_description = $('#ex_description').val();
+         var diplomaName = $("input[name='diplomaName[]']").map(function(){return $(this).val();}).get();
+         var dp_startDate = $("input[name='dp_startDate[]']").map(function(){return $(this).val();}).get();
+         var dp_endDate = $("input[name='dp_endDate[]']").map(function(){return $(this).val();}).get();
+         var dp_description = $("input[name='dp_description[]']").map(function(){return $(this).val();}).get();
+
+       
+         var experience = $("input[name='experience[]']").map(function(){return $(this).val();}).get();
+         var ex_startDate = $("input[name='ex_startDate[]']").map(function(){return $(this).val();}).get();
+         var ex_endDate = $("input[name='ex_endDate[]']").map(function(){return $(this).val();}).get();
+         var ex_description = $("input[name='ex_description[]']").map(function(){return $(this).val();}).get();
         
-        var   skill = $('#skill').val();
-        var   hobbie = $('#hobbie').val();
-
+         var   skill = $("input[name='skill[]']").map(function(){return $(this).val();}).get();
         
+         var  hobbie = $("input[name='hobbie[]']").map(function(){return $(this).val();}).get();
 
-            if( name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" ){
+         var myObject = {diplomaName :{diplomaName } , dp_startDate :{dp_startDate } , dp_endDate :{dp_endDate } , dp_description :{ dp_description} , experience :{ experience} , ex_startDate :{ ex_startDate} , ex_endDate :{ex_endDate }, ex_description :{ex_description} ,skill :{skill } ,hobbie :{hobbie} };
+    
+
+         var data_user = JSON.stringify(myObject);
+        
+         //console.log(myObject);
+
+         //console.log(myObject['diplomaName']['diplomaName'][0]);
+
+
+            if( name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" )
+          {
 
                 $('#message-registration').html("<div class='alert alert-warning'> veuilllez remplir tous les champs svp </div> ");
-               // $('#registration').modal('show');
+                
                 
 
-            }else{
+          }else{
 
                 
-                $.ajax(
+                 $.ajax(
                     {
                          url: 'insert.php',
                          method:'POST',
-                         data:{ pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date , diplomaName : diplomaName ,  dp_startDate :dp_startDate ,   dp_endDate : dp_endDate , dp_description:dp_description , experience:experience ,  ex_startDate : ex_startDate , ex_endDate:ex_endDate , ex_description:ex_description,  hobbie: hobbie , skill:skill },
-                         success: function(data){
-
-                              $('#message-registration').html(data);
-                             // $('#registration').modal('show');
-                             // $('form').trigger('reset');
-
+                         data:{ pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date , data_user:data_user },
+                         success: function(response)
+                         {
                             
-                            
-                    }
+                              $('#message-registration').html(response);
+                              $('#registration').modal('show');
+                              $('form').trigger('reset');
 
-                  });  
+                        }
+
+                   });   
 
 
-        }
+
+     }
             
         
     });
