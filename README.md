@@ -3,25 +3,28 @@
 
 ### The resume includes
 1. A section of coordinates:
- * The name.
- * The first name.
- * Email
- * Phone number
- * picture
- * Title of the CV (Example: infographer, web developer etc….)
+    * The name.
+    * The first name.
+    * Email
+    * Phone number
+    * picture
+    * Title of the CV (Example: infographer, web developer etc….)
  
- 2. Sections delimited by different titles :
- 2.1. Experience.
-       * Title of the experiment with the date.
-       * Description of the experience.
+ 2. Sections delimited by different titles:
+ 
+    2.1. Experience:
+    
+          *  Title of the experiment with the date.
+          *  Description of the experience.
 
-  2.2. Training.
-       * Title of the training with the date
-       * Description of the training
+     2.2. Training:
+     
+          * Title of the training with the date
+          * Description of the training
 
-  2.3. Skills.
-  
-  2.5. hobbies. 
+     2.3. Skills.
+
+     2.5. hobbies. 
 
  * A user can ___add different experiences, training, skills,hobbies
   each section can be modified or deleted___.
