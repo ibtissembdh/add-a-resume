@@ -38,4 +38,21 @@
     Resume title.
     Title of the experiment
     Course title
-
+* __home page__ 
+   
+      ![home page design](https://github.com/ibtissembdh/add-a-resume/blob/master/cv/screenshots/1.PNG)
+   
+   * __add a resume__ 
+   
+       ![add product](https://github.com/ibtissembdh/add-a-resume/blob/master/cv/screenshots/5.PNG)
+       
+       ![add product](https://github.com/ibtissembdh/add-a-resume/blob/master/cv/screenshots/7.PNG)
+   
+   * __update a resume__ 
+    
+       ![update product](https://github.com/ibtissembdh/add-a-resume/blob/master/cv/screenshots/update.PNG)
+   
+   * __view a resume__ 
+   
+       ![delete product](https://github.com/ibtissembdh/add-a-resume/blob/master/cv/screenshots/8.PNG)
+   
