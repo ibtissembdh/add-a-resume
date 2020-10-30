@@ -636,7 +636,7 @@ function  update()
               <tbody>";
 
 
-     $sql =" SELECT * FROM user, formation , experience  WHERE ( user.nom LIKE '%".$data."%' OR user.prenom LIKE '%".$data."%' OR user.titre LIKE '%".$data."%' OR formation.intituleF LIKE '%".$data."%' OR experience.intituleE LIKE '%".$data."%' ) and user.id=formation.user_id and user.id=experience.user_id  " ;
+     $sql =" SELECT user.nom , user.prenom , user.titre ,  user.id , GROUP_CONCAT( DISTINCT formation.intituleF) diplomaNames , GROUP_CONCAT( DISTINCT  experience.intituleE) ExperienceNames FROM user LEFT JOIN formation ON user.id = formation.user_id LEFT JOIN experience ON  user.id=experience.user_id WHERE (user.titre LIKE '%".$data."%' OR formation.intituleF LIKE '%".$data."%' OR experience.intituleE LIKE '%".$data."%') GROUP BY  user.id " ;
 
             $result=$db->query($sql);
 
@@ -649,8 +649,8 @@ function  update()
                         $table .='<tr>
                             <th scope="row">'. htmlspecialchars($row['nom'],ENT_QUOTES) ." ". htmlspecialchars( $row['prenom'],ENT_QUOTES). '</th>
                                 <td>'. htmlspecialchars($row['titre'],ENT_QUOTES) .'</td>
-                                <td> '. htmlspecialchars($row['intituleF'],ENT_QUOTES) .'</td>
-                                <td> '. htmlspecialchars($row['intituleE'],ENT_QUOTES) .'</td>
+                                <td> '. htmlspecialchars($row['diplomaNames'],ENT_QUOTES) .'</td>
+                                <td> '. htmlspecialchars($row['ExperienceNames'],ENT_QUOTES) .'</td>
                                 <td> 
                                  <button class="btn btn-primary" data-id='. htmlspecialchars($row['id'],ENT_QUOTES) .'  id="btn_edit" data-toggle="modal" data-target="#update" > 
                                      <span class="fas fa-pencil-alt" style="color:white;" > </span> 
