@@ -319,7 +319,9 @@ function get_user_Record()
                                         $up_diploma[] = new Field('INTITULÉ','text', 'up_diplomaName[]' , 'up_diplomaName',$row['intituleF'],'');
                                         $up_diploma[] = new Field('DATE DE DÉBUT','date', 'up_dp_startDate[]', 'up_dp_startDate',$row['dp_dateDebut'],''); 
                                         $up_diploma[] = new Field('DATE DE FIN','date', 'up_dp_endDate[]', 'up_dp_endDate',$row['dp_dateFin'],''); 
-                                        $up_diploma[] = new Field('DÉSCRIPTION','text', 'up_dp_description[]', 'up_dp_description ',$row['dp_description'],'');
+                                        $up_diploma[] = new Field('DÉSCRIPTION','text', 'up_dp_description[]', 'up_dp_description',$row['dp_description'],'');
+                                        $up_diploma[] = new Field('','hidden', 'diploma_id[]', 'diploma_id',$row['idFR'],'');
+
 
                                         
 
@@ -335,6 +337,7 @@ function get_user_Record()
                                         $up_experience[] = new Field('DATE DE DÉBUT','date', 'up_ex_startDate[]', 'up_ex_startDate',$row['ex_dateDebut'],''); 
                                         $up_experience[] = new Field('DATE DE FIN','date', 'up_ex_endDate[]', 'up_ex_endDate',$row['ex_dateFin'],''); 
                                         $up_experience[] = new Field('DÉSCRIPTION','text', 'up_ex_description[]', 'up_ex_description',$row['ex_description'],'');
+                                        $up_experience[] = new Field('','hidden', 'experience_id[]', 'experience_id',$row['idEX'],'');
 
                                        
 
@@ -347,6 +350,7 @@ function get_user_Record()
                     if(isset($response_skills)){ foreach ($response_skills as $row) {
 
                                         $up_skills[] = new Field('VOTRE COMPETENCE','text', 'up_skill[]', 'up_skill',$row['competence'],'Entrer competence');
+                                        $up_skills[] = new Field('','hidden', 'skill_id[]', 'skill_id',$row['idCom'],'');
                                         
 
                                      }};
@@ -357,6 +361,7 @@ function get_user_Record()
                     if(isset($response_hobbies)){ foreach ($response_hobbies as $row) {                    
 
                                         $up_hobbies[] = new Field('VOTRE LOISIR','text', 'up_hobbie[]', 'up_hobbie',$row['loisir'],'Entrer loisir');
+                                        $up_hobbies[] = new Field('','hidden', 'hobbie_id[]', 'hobbie_id',$row['idLoi'],'');
                                         
                                     }};
 
@@ -408,10 +413,11 @@ function  update()
 
     global $db;
 
-    //user id    
-    $id = $_POST['id'] ;
-
-
+    //user id 
+    $id = $_POST['user_id'];
+   
+    
+  
      $familyName = $_POST['familyName'];
      $name = $_POST['name'] ;
      $phoneNum = $_POST['phoneNum'];
@@ -419,14 +425,17 @@ function  update()
      $jobe = $_POST['jobe'];
      $pic = $_POST['pic'];
      $date = $_POST['date'];
-
-     $data_user = json_decode(stripslashes($_POST['data_user']));      
+    
+     $data_user = json_decode(stripslashes($_POST['data_user']));   
+     $data_user_error=false;  
+    
+    
                   
 
                 //update personnel user data 
 
-                $sql_user=sprintf( "UPDATE user SET nom ='try',prenom ='%s',tel ='%s',email = '%s',titre = '%s', photo = '%s', date = '%s' WHERE user.id= $id ",
-                   // $db->real_escape_string($familyName),
+                $sql_user=sprintf( "UPDATE user SET nom ='%s',prenom ='%s',tel ='%s',email ='%s',titre ='%s', photo ='%s', date ='%s' WHERE user.id= $id ",
+                    $db->real_escape_string($familyName),
                     $db->real_escape_string($name),
                     $db->real_escape_string($phoneNum),
                     $db->real_escape_string($email),
@@ -434,166 +443,157 @@ function  update()
                     $db->real_escape_string($pic),
                     $db->real_escape_string($date));
 
-                    if($db->query($sql_user))
-                    {
-                         //Do nothing
+                     if($db->query($sql_user))
+                     { 
+                         //do nothing
                          
+
+                     }else{
+
+                        echo "<div class='alert alert-warning'> Les informations n'ont pas été bien modifiées </div> ";
+                         $data_user_error = true ;
+
+                     }
                     
 
-                    }else{
-
-                        echo "<div class='alert alert-warning'> Les informations formation n'ont pas été bien modifiées </div> ";
-                         $data_user_error = true ;
-                    }
-
                    
+                                // diploma data         
+                                 $diplomaName = $data_user->diplomaName->diplomaName;
+                                 $dp_startDate = $data_user->dp_startDate->dp_startDate;
+                                 $dp_endDate = $data_user->dp_endDate->dp_endDate;
+                                 $dp_description = $data_user->dp_description->dp_description;
+                                 $diploma_id = $data_user->diploma_id->diploma_id;
 
-                 if (isset($data_user) and isset($id))
-                 {
-                            // diploma data         
-                             $diplomaName = $data_user->diplomaName->diplomaName;
-                             $dp_startDate = $data_user->dp_startDate->dp_startDate;
-                             $dp_endDate = $data_user->dp_endDate->dp_endDate;
-                             $dp_description = $data_user->dp_description->dp_description;
-
-                             //experience data
-                             $experience = $data_user->experience->experience;
-                             $ex_startDate = $data_user->ex_startDate->ex_startDate;
-                             $ex_endDate = $data_user->ex_endDate->ex_endDate;
-                             $ex_description = $data_user->ex_description->ex_description;
-
-                            //skills data
-                             $skill = $data_user->skill->skill;
-
-                             //hobbies data
-                             $hobbie = $data_user->hobbie->hobbie;
-
-                             $data_user_error = "";
-
-                             //update  diploma data
-                             if( !empty($diplomaName)  AND $dp_startDate !='' AND $dp_endDate !='' AND  $dp_description !='' )
-                            {
-                                 foreach($diplomaName as $key => $value)
-                                 {
-                                     
-                                     $sql=sprintf( "UPDATE formation f SET  intituleF = '%s' ,dp_dateDebut = '%s' ,dp_dateFin = '%s' ,dp_description = '%s' WHERE f.user_id = $id",
-                                         $db->real_escape_string($value),
-                                         $db->real_escape_string($dp_startDate[$key]),
-                                         $db->real_escape_string($dp_endDate[$key]),
-                                         $db->real_escape_string($dp_description[$key]));
-
-                                         if($db->query($sql))
-                                         {
-                                            // DO Nothing
-                                            $data_user_error = false ;
+                                //experience data
+                                 $experience = $data_user->experience->experience;
+                                 $ex_startDate = $data_user->ex_startDate->ex_startDate;
+                                 $ex_endDate = $data_user->ex_endDate->ex_endDate;
+                                 $ex_description = $data_user->ex_description->ex_description;
+                                 $experience_id = $data_user->experience_id->experience_id;
 
 
-                                         }else{
-
-                                             $data_user_error = true ;
-                                             echo "<div class='alert alert-warning'> Les informations formation n'ont pas été bien modifiées</div> ";
-                                         }
+                                //skills data
+                                 $skill = $data_user->skill->skill; 
+                                 $skill_id = $data_user->skill_id->skill_id;
 
 
-                                 }
-                            
-
-                            }
-
-
-                            //update experience data
-                            if( $experience  != "" AND $ex_startDate != "" AND $ex_endDate != "" AND $ex_description != "")
-                            {
-                                 foreach($experience as $key =>$value )
-                                 {
-                                    
-                                    $sql=sprintf( "UPDATE experience  SET intituleE ='%s' ,ex_dateDebut= '%s' ,ex_dateFin= '%s' ,ex_description= '%s'  WHERE user_id = $id ",
-                                             $db->real_escape_string($value),
-                                             $db->real_escape_string($ex_startDate[$key]),
-                                             $db->real_escape_string($ex_endDate[$key]),
-                                             $db->real_escape_string($ex_description[$key]));
-
-                                             if($db->query($sql))
-                                             {
-                                                //DO Nothing
-                                                
-
-                                             }else{
-
-                                                $data_user_error = true ;
-                                                echo "<div class='alert alert-warning'> Les informations experience n'ont pas été modifiées</div> ";
-                                                   
-                                            }
+                                //hobbies data
+                                  $hobbie = $data_user->hobbie->hobbie;
+                                  $hobbie_id = $data_user->hobbie_id->hobbie_id;
 
 
-                                 }                      
-                                
-                                 
-                            }
-
-                            //update skills data
-                            if( $skill !="")
-                            {
-                                 foreach($skill as $key =>$value)
-                                 {
-                                     
-                                     $sql=sprintf( "UPDATE competence SET  competence= '%s' WHERE user_id = $id ",
-                                              $db->real_escape_string($value));
-
-                                              if($db->query($sql))
-                                              {
-                                                 //DO Nothing 
-                                              
-
-                                              }else{
-
-                                                $data_user_error = true ;
-                                                echo "<div class='alert alert-warning'> Les informations loisir n'ont pas été modifiées</div> ";
-
-                                                
-                                            }
-
-                                 }
-                            
-                   
-                            }
-
-                            //update hobbies data
-                            if( $hobbie !="")
-                            {
-                                 foreach($hobbie as $key =>$value)
-                                 {
-                                    
-                                     $sql=sprintf( "UPDATE loisir  SET loisir='%s' WHERE user_id = $id ",
-                                              $db->real_escape_string($value));
+                                //update  diploma data
+                               
+                                    foreach($diplomaName as $key => $value)
+                                    {
                                         
-                                      if($db->query($sql))
-                                      {
-                                         //DO Nothing
-                                         
-                                      }else{
+                                        $sql=sprintf( "UPDATE formation f SET  intituleF ='%s' ,dp_dateDebut ='%s' ,dp_dateFin ='%s' ,dp_description ='%s' WHERE f.user_id = $id and f.idFR ='%s'",
+                                            $db->real_escape_string($value),
+                                            $db->real_escape_string($dp_startDate[$key]),
+                                            $db->real_escape_string($dp_endDate[$key]),
+                                            $db->real_escape_string($dp_description[$key]),
+                                            $db->real_escape_string($diploma_id[$key]));
 
-                                            $data_user_error = true ;
-                                            echo "<div class='alert alert-warning'> Les informations competence n'ont pas été bien modifiées</div> ";
+                                            if($db->query($sql))
+                                            {
+                                                //do nothing
+
+
+                                            }else{
+
+                                                 echo "<div class='alert alert-warning'> Les informations n'ont pas été bien modifiées </div> ";
+                                                  $data_user_error = true ;
+
+                                            }
+                                           
+
+                                           
+
+
+                                    }
+                                
+
+
+                                //update experience data
+                               
+                                    foreach($experience as $key =>$value )
+                                    {
+                                        
+                                        $sql=sprintf( "UPDATE experience e SET intituleE ='%s' ,ex_dateDebut= '%s' ,ex_dateFin= '%s' ,ex_description= '%s'  WHERE e.user_id = $id and e.idEX ='%s'",
+                                                $db->real_escape_string($value),
+                                                $db->real_escape_string($ex_startDate[$key]),
+                                                $db->real_escape_string($ex_endDate[$key]),
+                                                $db->real_escape_string($ex_description[$key]),
+                                                $db->real_escape_string($experience_id[$key]));
+
+                                                 if($db->query($sql))
+                                                 {
+                                                     //do nothing
+
+                                                 }else{
+                                                     echo "<div class='alert alert-warning'> Les informations n'ont pas été bien modifiées </div> ";
+                                                      $data_user_error = true ;
+                                                 }   
+
+
+                                    }                      
+                                    
+                                    
+
+                                //update skills data
+                                
+                                    foreach($skill as $key =>$value)
+                                    {
+                                        
+                                        $sql=sprintf( "UPDATE competence c SET  competence= '%s' WHERE c.user_id = $id and c.idCom ='%s'",
+                                                $db->real_escape_string($value),
+                                                $db->real_escape_string($skill_id[$key]));
+
+                                                if($db->query($sql))
+                                                 {
+                                                     //do nothing
+
+                                                 }else{
+                                                     echo "<div class='alert alert-warning'> Les informations n'ont pas été bien modifiées </div> ";
+                                                     $data_user_error = true ;
+                                                                                
+                                                 }   
+
+ 
+
+                                      }
+                                
+                    
+                                
+
+                                //update hobbies data
+                               
+                                    foreach($hobbie as $key =>$value)
+                                    {
+                                        
+                                        $sql=sprintf( "UPDATE loisir l SET loisir='%s' WHERE user_id = $id and l.idLoi = '%s'",
+                                                $db->real_escape_string($value),
+                                                $db->real_escape_string($hobbie_id[$key]));
                                             
-                                             
-                                        }
+                                                 if($db->query($sql))
+                                                 {
+                                                     //do nothing
 
-                                 }
-                            
-                            
-                            }
-                             
-                     
-             }
+                                                 }else{
+                                                     echo "<div class='alert alert-warning'> Les informations n'ont pas été bien modifiées </div> ";
+                                                     $data_user_error = true ; 
+                                                   
+                                                 }   
 
-            //success message 
-             if($data_user_error == false)
-             {
-                echo "<div class='alert alert-success'> Les informations ont été bien modifiées </div> ";
-                
-             }    
 
+                                     }
+
+                                     //success message 
+                                        if($data_user_error == false)
+                                        {
+                                            echo "<div class='alert alert-success'> Les informations ont été bien modifiées </div> ";
+                                            
+                                        }    
     
 }
    
