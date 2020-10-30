@@ -165,37 +165,40 @@ function update_record()
             var   email = $('#up_email').val();
             var   phoneNum = $('#up_phoneNum').val();
             var   date = $('#up_date').val();
-            var   id = $('#up_id').val();
+            var   user_id = $('#up_id').val();
 
 
             var diplomaName = $("input[name='up_diplomaName[]']").map(function(){return $(this).val();}).get();
             var dp_startDate = $("input[name='up_dp_startDate[]']").map(function(){return $(this).val();}).get();
             var dp_endDate = $("input[name='up_dp_endDate[]']").map(function(){return $(this).val();}).get();
             var dp_description = $("input[name='up_dp_description[]']").map(function(){return $(this).val();}).get();
+            var diploma_id = $("input[name='diploma_id[]']").map(function(){return $(this).val();}).get();
 
           
             var experience = $("input[name='up_experience[]']").map(function(){return $(this).val();}).get();
             var ex_startDate = $("input[name='up_ex_startDate[]']").map(function(){return $(this).val();}).get();
             var ex_endDate = $("input[name='up_ex_endDate[]']").map(function(){return $(this).val();}).get();
             var ex_description = $("input[name='up_ex_description[]']").map(function(){return $(this).val();}).get();
+            var experience_id = $("input[name='experience_id[]']").map(function(){return $(this).val();}).get();
            
             var   skill = $("input[name='up_skill[]']").map(function(){return $(this).val();}).get();
+            var   skill_id = $("input[name='skill_id[]']").map(function(){return $(this).val();}).get();
            
             var  hobbie = $("input[name='up_hobbie[]']").map(function(){return $(this).val();}).get();
+            var hobbie_id = $("input[name='hobbie_id[]']").map(function(){return $(this).val();}).get();
 
-            var myObject = {diplomaName :{diplomaName} , dp_startDate :{dp_startDate} , dp_endDate :{dp_endDate} , dp_description :{dp_description} , experience :{experience} , ex_startDate :{ex_startDate} , ex_endDate :{ex_endDate}, ex_description :{ex_description} ,skill :{skill} ,hobbie :{hobbie} };
+            var myObject = {diplomaName :{diplomaName} , dp_startDate :{dp_startDate} , dp_endDate :{dp_endDate} , dp_description :{dp_description} ,diploma_id :{diploma_id}, experience :{experience} , ex_startDate :{ex_startDate} , ex_endDate :{ex_endDate}, ex_description :{ex_description} , experience_id :{experience_id},skill :{skill}, skill_id :{skill_id} , hobbie :{hobbie}, hobbie_id :{hobbie_id}};
        
 
             var data_user = JSON.stringify(myObject);
        
-        console.log(myObject);
-
-        //alert(myObject['diplomaName']['diplomaName'][0]);
-
-        //alert(id);
+        //console.log(myObject);
 
 
-           if( id = "" || name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" )
+       
+
+
+           if(name=="" || familyName=="" || jobe=="" || email=="" || phoneNum=="" || date=="" || diplomaName=="" || dp_startDate ==" " || dp_endDate =="" || dp_description==" " || experience == "" || ex_startDate == "" || ex_endDate==""  || ex_description == " " || hobbie == "" || skill =="" )
          {
 
                $('#message-update').html("<div class='alert alert-warning'> veuilllez remplir tous les champs svp </div> ");
@@ -210,7 +213,7 @@ function update_record()
                    {
                         url: 'update.php',
                         method:'POST',
-                        data:{ id:id ,pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date , data_user:data_user },
+                        data:{pic:pic , name:name , familyName: familyName , jobe:jobe , email:email , phoneNum :phoneNum, date:date ,user_id:user_id , data_user:data_user },
                         success: function(response)
                         {
 
