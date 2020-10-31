@@ -1,5 +1,5 @@
 ### web site in PHP and JAVA SCRIPT  
-## The goal of this tutorial is to create a dynamic resume using OOP with PHP and MVC modle
+## The goal of this tutorial is to create a dynamic web site to add, update or delete a resume using OOP with PHP and MVC model
 
 ### The resume includes
 1. A section of coordinates:
