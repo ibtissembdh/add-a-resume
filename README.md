@@ -1,5 +1,5 @@
-### web site in PHP and JAVA SCRIPT  
-## The goal of this tutorial is to create a dynamic web site to add, update or delete a resume using OOP with PHP and MVC.
+### web site in PHP and JAVASCRIPT  
+## The goal of this tutorial is to create a dynamic website to add, update or delete a resume using OOP with PHP and MVC.
 
 ### The resume includes
 1. A section of coordinates:
@@ -8,7 +8,7 @@
     * Email
     * Phone number
     * picture
-    * Title of the CV (Example: infographer, web developer etc….)
+    * Title of the CV (Example: web designer, web developer, etc….)
  
  2. Sections delimited by different titles:
  
@@ -26,15 +26,14 @@
 
      2.5. hobbies. 
 
- * A user can ___add different experiences, training, skills,hobbies
+ * A user can ___add different experiences, training, skills, hobbies
   each section can be modified or deleted___.
   
  * A user can ___see his resume on a cv template___.
  
  * Several users can have a CV.
   
-  * The goal afterwards is to ___create a search engine to make a
-    research on Cvs___. The search done on the following fields:
+  * The goal afterward is to ___create a search engine to make research on Cvs___. The search done on the following fields:
     Resume title.
     Title of the experiment
     Course title
